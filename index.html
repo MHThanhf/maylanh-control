@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Điều khiển Máy Lạnh</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5; /* Màu nền nhạt hơn */
+            margin: 10px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column; /* Sắp xếp các phần tử theo cột */
+            align-items: center; /* Căn giữa theo chiều ngang */
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 95%;
+            padding: 20px; /* Tăng padding container */
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tăng độ đậm shadow */
+            margin-bottom: 20px; /* Thêm khoảng cách dưới container */
+        }
+
+        h1 {
+            color: #2c3e50; /* Màu tiêu đề đậm hơn */
+            text-align: center;
+            margin-bottom: 25px; /* Tăng margin bottom heading */
+            font-size: 2rem; /* Điều chỉnh kích thước font heading */
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0; /* Đường viền nhạt hơn */
+        }
+
+        .card h2 {
+            color: #34495e; /* Màu tiêu đề card đậm hơn */
+            margin-top: 0;
+            margin-bottom: 12px; /* Điều chỉnh margin bottom card heading */
+            font-size: 1.4rem; /* Điều chỉnh kích thước font card heading */
+            text-align: center;
+            border-bottom: 1px solid #ecf0f1; /* Thêm đường gạch chân tiêu đề card */
+            padding-bottom: 8px;
+        }
+
+        .card p {
+            margin: 10px 0; /* Điều chỉnh margin paragraph */
+            font-size: 1rem;
+            color: #555; /* Màu chữ paragraph trung tính hơn */
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Điều chỉnh minmax button width */
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px; /* Điều chỉnh padding button */
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #3498db; /* Xanh dương tươi */
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c; /* Đỏ tươi */
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-success {
+            background-color: #2ecc71; /* Xanh lá cây tươi */
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-warning {
+            background-color: #f39c12; /* Vàng cam */
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+
+        .btn-info {
+            background-color: #1abc9c; /* Xanh ngọc */
+        }
+
+        .btn-info:hover {
+            background-color: #16a085;
+        }
+
+        #connectionStatus {
+            background-color: #ecf0f1; /* Màu nền nhạt cho trạng thái kết nối */
+            color: #777;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+        }
+
+        .connected {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .disconnected {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        #autoSettings {
+            background-color: #f9f9f9; /* Màu nền nhạt cho cài đặt tự động */
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        #autoSettings h2 {
+            border-bottom-color: #ddd;
+        }
+
+        .temp-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .temp-input label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .temp-input input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 0.9rem;
+        }
+
+        #setTemps {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #3498db;
+        }
+
+        #setTemps:hover {
+            background-color: #2980b9;
+        }
+
+        #irSendStatus {
+            background-color: #f0f0f0; /* Màu nền nhạt cho trạng thái IR */
+            color: #555;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #d0d0d0;
+        }
+
+        .ir-ok {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .ir-failed {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Điều khiển Máy Lạnh</h1>
+        <div id="connectionStatus" class="card">
+            <h2>Trạng Thái Kết Nối</h2>
+            <p id="localConnection" class="disconnected">Local MQTT: Mất kết nối</p>
+            <p id="internetConnection" class="disconnected">Internet MQTT: Mất kết nối</p>
+        </div>
+        <div id="status-container" class="card">
+            <h2>Trạng Thái Máy Lạnh</h2>
+            <p id="temperature">Nhiệt độ: Đang tải...</p>
+            <p id="status">Trạng thái: Đang tải...</p>
+            <p id="autoStatus">Tự động: Đang tải...</p>
+        </div>
+        <div id="irSendStatus" class="card">
+            <h2>Trạng Thái Gửi Lệnh IR</h2>
+            <p id="irStatusMessage">Đang chờ lệnh...</p>
+        </div>
+        <div class="card">
+            <h2>Điều Khiển</h2>
+            <div class="controls">
+                <button id="powerOn" class="btn btn-primary">Bật</button>
+                <button id="powerOff" class="btn btn-danger">Tắt</button>
+                <button id="autoOn" class="btn btn-success">Tự động Bật</button>
+                <button id="autoOff" class="btn btn-warning">Tự động Tắt</button>
+                <button id="tempUp" class="btn btn-info">Tăng Nhiệt Độ</button>
+                <button id="tempDown" class="btn btn-info">Giảm Nhiệt Độ</button>
+            </div>
+        </div>
+        <div id="autoSettings" class="card">
+            <h2>Cài Đặt Ngưỡng Nhiệt Độ Tự Động</h2>
+            <div class="temp-inputs">
+                <div class="temp-input">
+                    <label for="highTemp">Ngưỡng Cao (°C):</label>
+                    <input type="number" id="highTemp" value="28">
+                </div>
+                <div class="temp-input">
+                    <label for="lowTemp">Ngưỡng Thấp (°C):</label>
+                    <input type="number" id="lowTemp" value="26">
+                </div>
+            </div>
+            <button id="setTemps" class="btn btn-info">Áp Dụng Ngưỡng</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+    <script>
+        const temperatureDisplay = document.getElementById('temperature');
+        const statusDisplay = document.getElementById('status');
+        const autoStatusDisplay = document.getElementById('autoStatus');
+        const powerOnButton = document.getElementById('powerOn');
+        const powerOffButton = document.getElementById('powerOff');
+        const autoOnButton = document.getElementById('autoOn');
+        const autoOffButton = document.getElementById('autoOff');
+        const tempUpButton = document.getElementById('tempUp');
+        const tempDownButton = document.getElementById('tempDown');
+        const highTempInput = document.getElementById('highTemp');
+        const lowTempInput = document.getElementById('lowTemp');
+        const setTempsButton = document.getElementById('setTemps');
+        const localConnectionDisplay = document.getElementById('localConnection');
+        const internetConnectionDisplay = document.getElementById('internetConnection');
+        const irStatusMessageDisplay = document.getElementById('irStatusMessage');
+
+        let isLocalConnected = false;
+        let isInternetConnected = false;
+
+        // Kết nối đến broker cục bộ
+        const clientLocal = new Paho.MQTT.Client('192.168.0.107', 9001, 'webClientLocal-' + parseInt(Math.random() * 100, 10));
+        clientLocal.onConnectionLost = onConnectionLostLocal;
+        clientLocal.onMessageArrived = onMessageArrivedLocal;
+        reconnectLocal();
+
+        // Kết nối đến broker internet
+        const clientInternet = new Paho.MQTT.Client('192.168.0.108', 9001, 'webClientInternet-' + parseInt(Math.random() * 100, 10));
+        clientInternet.onConnectionLost = onConnectionLostInternet;
+        clientInternet.onMessageArrived = onMessageArrivedInternet;
+        reconnectInternet();
+
+        // Hàm thử kết nối lại với broker cục bộ
+        function reconnectLocal() {
+            console.log('Attempting to reconnect to local MQTT broker...');
+            clientLocal.connect({
+                onSuccess: onConnectLocal,
+                onFailure: onFailureLocal,
+                keepAliveInterval: 15
+            });
+        }
+
+        // Hàm thử kết nối lại với broker internet
+        function reconnectInternet() {
+            console.log('Attempting to reconnect to internet MQTT broker...');
+            clientInternet.connect({
+                onSuccess: onConnectInternet,
+                onFailure: onFailureInternet,
+                keepAliveInterval: 15
+            });
+        }
+
+        function onConnectLocal() {
+            console.log('onConnectLocal được gọi!');
+            console.log('Connected to local MQTT broker via WebSocket');
+            clientLocal.subscribe('maylanh/temperature');
+            clientLocal.subscribe('maylanh/status');
+            clientLocal.subscribe('maylanh/auto_status');
+            clientLocal.subscribe('maylanh/ir_send_status'); // Subscribe vào topic trạng thái IR
+            localConnectionDisplay.textContent = 'Local MQTT: Đã kết nối';
+            localConnectionDisplay.className = 'connected';
+            isLocalConnected = true;
+        }
+
+        function onConnectInternet() {
+            console.log('onConnectInternet được gọi!');
+            console.log('Connected to internet MQTT broker via WebSocket');
+            clientInternet.subscribe('maylanh/temperature');
+            clientInternet.subscribe('maylanh/status');
+            clientInternet.subscribe('maylanh/auto_status');
+            clientInternet.subscribe('maylanh/ir_send_status'); // Subscribe vào topic trạng thái IR
+            internetConnectionDisplay.textContent = 'Internet MQTT: Đã kết nối';
+            internetConnectionDisplay.className = 'connected';
+            isInternetConnected = true;
+        }
+
+        function onFailureLocal(responseObject) {
+            console.log('onFailureLocal được gọi!');
+            console.log('Failed to connect to local broker: ' + responseObject.errorMessage);
+            localConnectionDisplay.textContent = 'Local MQTT: Kết nối thất bại';
+            localConnectionDisplay.className = 'disconnected';
+            isLocalConnected = false;
+            console.log('Retrying local connection in 2 seconds...');
+            setTimeout(reconnectLocal, 2000);
+        }
+
+        function onFailureInternet(responseObject) {
+            console.log('onFailureInternet được gọi!');
+            console.log('Failed to connect to internet broker: ' + responseObject.errorMessage);
+            internetConnectionDisplay.textContent = 'Internet MQTT: Kết nối thất bại';
+            internetConnectionDisplay.className = 'disconnected';
+            isInternetConnected = false;
+            console.log('Retrying internet connection in 2 seconds...');
+            setTimeout(reconnectInternet, 2000);
+        }
+
+        function onConnectionLostLocal(responseObject) {
+            console.log("onConnectionLostLocal được gọi!");
+            if (responseObject.errorCode !== 0) {
+                console.log('Connection Lost to local broker: ' + responseObject.errorMessage);
+                localConnectionDisplay.textContent = 'Local MQTT: Mất kết nối';
+                localConnectionDisplay.className = 'disconnected';
+                isLocalConnected = false;
+                console.log('Retrying local connection in 5 seconds...');
+                setTimeout(reconnectLocal, 5000);
+            }
+        }
+
+        function onConnectionLostInternet(responseObject) {
+            console.log("onConnectionLostInternet được gọi!");
+            if (responseObject.errorCode !== 0) {
+                console.log('Connection Lost to internet broker: ' + responseObject.errorMessage);
+                internetConnectionDisplay.textContent = 'Internet MQTT: Mất kết nối';
+                internetConnectionDisplay.className = 'disconnected';
+                isInternetConnected = false;
+                console.log('Retrying internet connection in 5 seconds...');
+                setTimeout(reconnectInternet, 5000);
+            }
+        }
+
+        function updateStatus(temperature, status, autoStatus) {
+            temperatureDisplay.textContent = 'Nhiệt độ: ' + temperature + ' °C';
+            statusDisplay.textContent = 'Trạng thái: ' + status;
+            autoStatusDisplay.textContent = 'Tự động: ' + autoStatus;
+        }
+
+        function onMessageArrivedLocal(message) {
+            console.log("Message arrived from local broker: " + message.destinationName + " - " + message.payloadString);
+            handleIncomingMessage(message);
+        }
+
+        function onMessageArrivedInternet(message) {
+            console.log("Message arrived from internet broker: " + message.destinationName + " - " + message.payloadString);
+            handleIncomingMessage(message);
+        }
+
+        function handleIncomingMessage(message) {
+            switch (message.destinationName) {
+                case 'maylanh/temperature':
+                    updateStatus(message.payloadString, statusDisplay.textContent.split(': ')[1], autoStatusDisplay.textContent.split(': ')[1]);
+                    break;
+                case 'maylanh/status':
+                    updateStatus(temperatureDisplay.textContent.split(': ')[1].split(' ')[0], message.payloadString, autoStatusDisplay.textContent.split(': ')[1]);
+                    break;
+                case 'maylanh/auto_status':
+                    updateStatus(temperatureDisplay.textContent.split(': ')[1].split(' ')[0], statusDisplay.textContent.split(': ')[1], message.payloadString);
+                    break;
+                case 'maylanh/ir_send_status': // Xử lý topic trạng thái IR
+                    irStatusMessageDisplay.textContent = 'Trạng thái IR: ' + message.payloadString.replace(/_/g, ' ');
+                    if (message.payloadString.endsWith('_OK')) {
+                        irStatusMessageDisplay.className = 'ir-ok card'; // Thêm class 'card' để có cùng style
+                    } else if (message.payloadString.endsWith('_FAILED')) {
+                        irStatusMessageDisplay.className = 'ir-failed card'; // Thêm class 'card' để có cùng style
+                    } else {
+                        irStatusMessageDisplay.className = 'card'; // Đảm bảo vẫn có style card
+                    }
+                    break;
+            }
+        }
+
+        function sendMessage(topic, command) {
+            const commandId = generateUUID();
+            const source = "web";
+            const message = `${command}:${commandId}:${source}`;
+
+            // Ưu tiên gửi đến broker local nếu đang kết nối
+            if (isLocalConnected && clientLocal.isConnected()) {
+                clientLocal.send(topic, message);
+                console.log("Đã gửi lệnh đến broker local: " + message);
+                return; // Dừng lại sau khi gửi thành công đến local
+            }
+
+            // Nếu không kết nối được local, thử gửi đến broker internet
+            if (isInternetConnected && clientInternet.isConnected()) {
+                clientInternet.send(topic, message);
+                console.log("Đã gửi lệnh đến broker internet: " + message);
+                return; // Dừng lại sau khi gửi thành công đến internet
+            }
+
+            // Nếu không kết nối được với cả hai broker
+            alert("Không có broker nào kết nối. Vui lòng kiểm tra lại kết nối.");
+        }
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        powerOnButton.addEventListener('click', () => sendMessage('maylanh/control', 'ON'));
+        powerOffButton.addEventListener('click', () => sendMessage('maylanh/control', 'OFF'));
+        autoOnButton.addEventListener('click', () => sendMessage('maylanh/control', 'AUTO_ON'));
+        autoOffButton.addEventListener('click', () => sendMessage('maylanh/control', 'AUTO_OFF'));
+        tempUpButton.addEventListener('click', () => sendMessage('maylanh/control', 'TEMP_UP'));
+        tempDownButton.addEventListener('click', () => sendMessage('maylanh/control', 'TEMP_DOWN'));
+        setTempsButton.addEventListener('click', () => {
+            sendMessage('maylanh/control', 'HIGH_TEMP:' + highTempInput.value);
+            sendMessage('maylanh/control', 'LOW_TEMP:' + lowTempInput.value);
+        });
+
+        function checkConnectionStatus() {
+            if (clientLocal && !clientLocal.isConnected() && isLocalConnected) {
+                console.log('Local connection seems lost (periodic check) - clientLocal.isConnected():', clientLocal.isConnected(), 'isLocalConnected:', isLocalConnected);
+                onConnectionLostLocal({ errorCode: -1, errorMessage: 'Periodic check detected loss' });
+            } else if (clientLocal && clientLocal.isConnected() && !isLocalConnected) {
+                console.log('Local connection seems regained (periodic check) - clientLocal.isConnected():', clientLocal.isConnected(), 'isLocalConnected:', isLocalConnected);
+                onConnectLocal(); // Gọi onConnect để cập nhật trạng thái
+            }
+            if (clientInternet && !clientInternet.isConnected() && isInternetConnected) {
+                console.log('Internet connection seems lost (periodic check) - clientInternet.isConnected():', clientInternet.isConnected(), 'isInternetConnected:', isInternetConnected);
+                onConnectionLostInternet({ errorCode: -1, errorMessage: 'Periodic check detected loss' });
+            } else if (clientInternet && clientInternet.isConnected() && !isInternetConnected) {
+                console.log('Internet connection seems regained (periodic check) - clientInternet.isConnected():', clientInternet.isConnected(), 'isInternetConnected:', isInternetConnected);
+                onConnectInternet(); // Gọi onConnect để cập nhật trạng thái
+            }
+        }
+
+        setInterval(checkConnectionStatus, 3000); // Kiểm tra mỗi 3 giây
+
+    </script>
+</body>
+
+</html>
