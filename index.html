@@ -2,109 +2,78 @@
 <html>
   <head>
     <title>Điều khiển Máy Lạnh</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-      :root {
-        --primary-color: #3498db;
-        --primary-hover-color: #2980b9;
-        --danger-color: #e74c3c;
-        --danger-hover-color: #c0392b;
-        --success-color: #2ecc71;
-        --success-hover-color: #27ae60;
-        --warning-color: #f39c12;
-        --warning-hover-color: #e67e22;
-        --info-color: #1abc9c;
-        --info-hover-color: #16a085;
-        --text-primary: #2c3e50;
-        --text-secondary: #34495e;
-        --text-light: #555;
-        --bg-light: #f0f2f5;
-        --bg-white: #fff;
-        --border-color: #e0e0e0;
-        --border-light: #ecf0f1;
-        --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        --border-radius: 8px;
-        --container-max-width: 480px;
-        --font-size-base: 1rem;
-      }
-
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--bg-light);
+        background-color: #f0f2f5; /* Màu nền nhạt hơn */
         margin: 10px;
         padding: 10px;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Sắp xếp các phần tử theo cột */
+        align-items: center; /* Căn giữa theo chiều ngang */
         min-height: 100vh;
-        font-size: var(--font-size-base);
       }
 
       .container {
-        max-width: var(--container-max-width);
+        max-width: 480px;
         width: 95%;
-        padding: 20px;
-        background-color: var(--bg-white);
+        padding: 20px; /* Tăng padding container */
+        background-color: #fff;
         border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tăng độ đậm shadow */
+        margin-bottom: 20px; /* Thêm khoảng cách dưới container */
       }
 
       h1 {
-        color: var(--text-primary);
+        color: #2c3e50; /* Màu tiêu đề đậm hơn */
         text-align: center;
-        margin-bottom: 25px;
-        font-size: 2rem;
+        margin-bottom: 25px; /* Tăng margin bottom heading */
+        font-size: 2rem; /* Điều chỉnh kích thước font heading */
       }
 
       .card {
-        background-color: var(--bg-white);
+        background-color: #fff;
         padding: 15px;
         margin-bottom: 15px;
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e0e0e0; /* Đường viền nhạt hơn */
       }
 
       .card h2 {
-        color: var(--text-secondary);
+        color: #34495e; /* Màu tiêu đề card đậm hơn */
         margin-top: 0;
-        margin-bottom: 12px;
-        font-size: 1.4rem;
+        margin-bottom: 12px; /* Điều chỉnh margin bottom card heading */
+        font-size: 1.4rem; /* Điều chỉnh kích thước font card heading */
         text-align: center;
-        border-bottom: 1px solid var(--border-light);
+        border-bottom: 1px solid #ecf0f1; /* Thêm đường gạch chân tiêu đề card */
         padding-bottom: 8px;
       }
 
       .card p {
-        margin: 10px 0;
-        font-size: var(--font-size-base);
-        color: var(--text-light);
+        margin: 10px 0; /* Điều chỉnh margin paragraph */
+        font-size: 1rem;
+        color: #555; /* Màu chữ paragraph trung tính hơn */
         line-height: 1.5;
         text-align: center;
       }
 
-      .controls-single {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-bottom: 15px;
-        align-items: stretch; /* Để các nút có chiều rộng bằng nhau trên mobile */
-      }
-
-      .controls-temp {
+      .controls {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(
+          auto-fit,
+          minmax(120px, 1fr)
+        ); /* Điều chỉnh minmax button width */
         gap: 10px;
         margin-bottom: 20px;
       }
 
       .btn {
-        padding: 12px 20px;
+        padding: 12px 20px; /* Điều chỉnh padding button */
         font-size: 0.95rem;
         border: none;
         border-radius: 6px;
-        color: var(--bg-white);
+        color: white;
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -113,48 +82,48 @@
       }
 
       .btn-primary {
-        background-color: var(--primary-color);
+        background-color: #3498db; /* Xanh dương tươi */
       }
 
       .btn-primary:hover {
-        background-color: var(--primary-hover-color);
+        background-color: #2980b9;
       }
 
       .btn-danger {
-        background-color: var(--danger-color);
+        background-color: #e74c3c; /* Đỏ tươi */
       }
 
       .btn-danger:hover {
-        background-color: var(--danger-hover-color);
+        background-color: #c0392b;
       }
 
       .btn-success {
-        background-color: var(--success-color);
+        background-color: #2ecc71; /* Xanh lá cây tươi */
       }
 
       .btn-success:hover {
-        background-color: var(--success-hover-color);
+        background-color: #27ae60;
       }
 
       .btn-warning {
-        background-color: var(--warning-color);
+        background-color: #f39c12; /* Vàng cam */
       }
 
       .btn-warning:hover {
-        background-color: var(--warning-hover-color);
+        background-color: #e67e22;
       }
 
       .btn-info {
-        background-color: var(--info-color);
+        background-color: #1abc9c; /* Xanh ngọc */
       }
 
       .btn-info:hover {
-        background-color: var(--info-hover-color);
+        background-color: #16a085;
       }
 
       #connectionStatus {
-        background-color: var(--border-light);
-        color: var(--text-light);
+        background-color: #ecf0f1; /* Màu nền nhạt cho trạng thái kết nối */
+        color: #777;
         text-align: center;
         margin-bottom: 15px;
         padding: 12px;
@@ -163,19 +132,19 @@
       }
 
       .connected {
-        color: var(--success-color);
+        color: #27ae60;
         font-weight: bold;
       }
 
       .disconnected {
-        color: var(--danger-color);
+        color: #c0392b;
         font-weight: bold;
       }
 
       #autoSettings {
-        background-color: #f9f9f9;
+        background-color: #f9f9f9; /* Màu nền nhạt cho cài đặt tự động */
         padding: 15px;
-        border-radius: var(--border-radius);
+        border-radius: 8px;
         border: 1px solid #eee;
       }
 
@@ -193,8 +162,8 @@
       .temp-input label {
         display: block;
         margin-bottom: 8px;
-        font-size: var(--font-size-base);
-        color: var(--text-primary);
+        font-size: 1rem;
+        color: #333;
         font-weight: bold;
       }
 
@@ -210,18 +179,18 @@
       #setTemps {
         width: 100%;
         padding: 12px;
-        font-size: var(--font-size-base);
+        font-size: 1rem;
         font-weight: bold;
-        background-color: var(--info-color);
+        background-color: #3498db;
       }
 
       #setTemps:hover {
-        background-color: var(--info-hover-color);
+        background-color: #2980b9;
       }
 
       #irSendStatus {
-        background-color: #f0f0f0;
-        color: var(--text-light);
+        background-color: #f0f0f0; /* Màu nền nhạt cho trạng thái IR */
+        color: #555;
         text-align: center;
         margin-top: 10px;
         padding: 10px;
@@ -230,129 +199,13 @@
       }
 
       .ir-ok {
-        color: var(--success-color);
+        color: #2ecc71;
         font-weight: bold;
       }
 
       .ir-failed {
-        color: var(--danger-color);
+        color: #e74c3c;
         font-weight: bold;
-      }
-
-      /* Media Queries cho Responsive Design */
-
-      /* Cho màn hình nhỏ hơn (điện thoại) */
-      @media screen and (max-width: 600px) {
-        body {
-          margin: 5px;
-          padding: 5px;
-          font-size: 0.9rem;
-        }
-
-        .container {
-          width: 100%;
-          padding: 15px;
-          margin-bottom: 15px;
-          border-radius: 0;
-          box-shadow: none;
-        }
-
-        h1 {
-          font-size: 1.8rem;
-          margin-bottom: 20px;
-        }
-
-        .controls-single {
-          flex-direction: column;
-          gap: 8px;
-          margin-bottom: 15px;
-          align-items: stretch; /* Giữ stretch cho mobile */
-        }
-
-        .controls-temp {
-          grid-template-columns: 1fr;
-          gap: 8px;
-          margin-bottom: 15px;
-        }
-
-        .btn {
-          padding: 10px 15px;
-          font-size: 0.9rem;
-        }
-
-        .temp-inputs {
-          grid-template-columns: 1fr;
-          gap: 10px;
-          margin-bottom: 15px;
-        }
-
-        .temp-input label {
-          margin-bottom: 5px;
-          text-align: left;
-        }
-
-        .card {
-          border-radius: 0;
-          box-shadow: none;
-          border-left: none;
-          border-right: none;
-        }
-
-        .card h2 {
-          font-size: 1.2rem;
-          margin-bottom: 10px;
-          padding-bottom: 5px;
-        }
-
-        .card p {
-          font-size: 0.9rem;
-        }
-      }
-
-      /* Cho màn hình trung bình (máy tính bảng) */
-      @media screen and (min-width: 601px) and (max-width: 992px) {
-        body {
-          font-size: 0.95rem;
-          margin: 8px;
-          padding: 8px;
-        }
-
-        .container {
-          max-width: 768px;
-          width: 90%;
-          padding: 18px;
-          margin-bottom: 18px;
-        }
-
-        h1 {
-          font-size: 2.2rem;
-          margin-bottom: 22px;
-        }
-
-        .controls-single {
-          flex-direction: row;
-          justify-content: space-between;
-          /* align-items: stretch; */ /* Loại bỏ stretch trên tablet để nút có chiều cao tự nhiên */
-          margin-bottom: 18px;
-          gap: 10px;
-        }
-
-        .controls-temp {
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-          margin-bottom: 18px;
-        }
-
-        .btn {
-          padding: 11px 18px;
-          font-size: 1rem;
-        }
-
-        .temp-inputs {
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-          margin-bottom: 18px;
-        }
       }
     </style>
   </head>
@@ -379,11 +232,11 @@
       </div>
       <div class="card">
         <h2>Điều Khiển</h2>
-        <div class="controls-single">
-          <button id="powerToggle" class="btn btn-primary">Bật</button>
-          <button id="autoToggle" class="btn btn-success">Tự động Bật</button>
-        </div>
-        <div class="controls-temp">
+        <div class="controls">
+          <button id="powerOn" class="btn btn-primary">Bật</button>
+          <button id="powerOff" class="btn btn-danger">Tắt</button>
+          <button id="autoOn" class="btn btn-success">Tự động Bật</button>
+          <button id="autoOff" class="btn btn-warning">Tự động Tắt</button>
           <button id="tempUp" class="btn btn-info">Tăng Nhiệt Độ</button>
           <button id="tempDown" class="btn btn-info">Giảm Nhiệt Độ</button>
         </div>
@@ -408,8 +261,10 @@
       const temperatureDisplay = document.getElementById("temperature");
       const statusDisplay = document.getElementById("status");
       const autoStatusDisplay = document.getElementById("autoStatus");
-      const powerToggleButton = document.getElementById("powerToggle");
-      const autoToggleButton = document.getElementById("autoToggle");
+      const powerOnButton = document.getElementById("powerOn");
+      const powerOffButton = document.getElementById("powerOff");
+      const autoOnButton = document.getElementById("autoOn");
+      const autoOffButton = document.getElementById("autoOff");
       const tempUpButton = document.getElementById("tempUp");
       const tempDownButton = document.getElementById("tempDown");
       const highTempInput = document.getElementById("highTemp");
@@ -422,104 +277,6 @@
 
       let isLocalConnected = false;
       let isInternetConnected = false;
-      let isPowerOn = false;
-      let isAutoOn = false;
-
-      function updatePowerButtonUI() {
-        powerToggleButton.textContent = isPowerOn ? "Tắt" : "Bật";
-        powerToggleButton.className = isPowerOn
-          ? "btn btn-danger"
-          : "btn btn-primary";
-      }
-
-      function updateAutoButtonUI() {
-        autoToggleButton.textContent = isAutoOn ? "Tự động Tắt" : "Tự động Bật";
-        autoToggleButton.className = isAutoOn
-          ? "btn btn-warning"
-          : "btn btn-success";
-      }
-
-      powerToggleButton.addEventListener("click", () => {
-        isPowerOn = !isPowerOn;
-        updatePowerButtonUI();
-        sendMessage("maylanh/control", isPowerOn ? "ON" : "OFF");
-      });
-
-      autoToggleButton.addEventListener("click", () => {
-        isAutoOn = !isAutoOn;
-        updateAutoButtonUI();
-        sendMessage("maylanh/control", isAutoOn ? "AUTO_ON" : "AUTO_OFF");
-      });
-
-      tempUpButton.addEventListener("click", () =>
-        sendMessage("maylanh/control", "TEMP_UP")
-      );
-      tempDownButton.addEventListener("click", () =>
-        sendMessage("maylanh/control", "TEMP_DOWN")
-      );
-      setTempsButton.addEventListener("click", () => {
-        sendMessage("maylanh/control", "HIGH_TEMP:" + highTempInput.value);
-        sendMessage("maylanh/control", "LOW_TEMP:" + lowTempInput.value);
-      });
-
-      function updateStatus(temperature, status, autoStatus) {
-        temperatureDisplay.textContent = "Nhiệt độ: " + temperature + " °C";
-        statusDisplay.textContent = "Trạng thái: " + status;
-        autoStatusDisplay.textContent = "Tự động: " + autoStatus;
-      }
-
-      function handleIncomingMessage(message) {
-        switch (message.destinationName) {
-          case "maylanh/temperature":
-            updateStatus(
-              message.payloadString,
-              statusDisplay.textContent.split(": ")[1],
-              autoStatusDisplay.textContent.split(": ")[1]
-            );
-            break;
-          case "maylanh/status":
-            const newStatus = message.payloadString;
-            updateStatus(
-              temperatureDisplay.textContent.split(": ")[1].split(" ")[0],
-              newStatus,
-              autoStatusDisplay.textContent.split(": ")[1]
-            );
-            isPowerOn = newStatus.toUpperCase() === "ON";
-            updatePowerButtonUI();
-            break;
-          case "maylanh/auto_status":
-            const newAutoStatus = message.payloadString;
-            updateStatus(
-              temperatureDisplay.textContent.split(": ")[1].split(" ")[0],
-              statusDisplay.textContent.split(": ")[1],
-              newAutoStatus
-            );
-            isAutoOn = newAutoStatus.toUpperCase() === "ON";
-            updateAutoButtonUI();
-            break;
-          case "maylanh/ir_send_status":
-            irStatusMessageDisplay.textContent =
-              "Trạng thái IR: " + message.payloadString.replace(/_/g, " ");
-            irStatusMessageDisplay.className = message.payloadString.endsWith(
-              "_OK"
-            )
-              ? "ir-ok card"
-              : message.payloadString.endsWith("_FAILED")
-              ? "ir-failed card"
-              : "card";
-            break;
-        }
-      }
-
-      function onMessageArrivedLocal(message) {
-        console.log("Tin nhắn đến từ Local Broker:", message);
-        handleIncomingMessage(message);
-      }
-
-      function onMessageArrivedInternet(message) {
-        console.log("Tin nhắn đến từ Internet Broker:", message);
-        handleIncomingMessage(message);
-      }
 
       // Kết nối đến broker cục bộ
       const clientLocal = new Paho.MQTT.Client(
@@ -541,6 +298,7 @@
       clientInternet.onMessageArrived = onMessageArrivedInternet;
       reconnectInternet();
 
+      // Hàm thử kết nối lại với broker cục bộ
       function reconnectLocal() {
         console.log("Attempting to reconnect to local MQTT broker...");
         clientLocal.connect({
@@ -550,6 +308,7 @@
         });
       }
 
+      // Hàm thử kết nối lại với broker internet
       function reconnectInternet() {
         console.log("Attempting to reconnect to internet MQTT broker...");
         clientInternet.connect({
@@ -565,7 +324,7 @@
         clientLocal.subscribe("maylanh/temperature");
         clientLocal.subscribe("maylanh/status");
         clientLocal.subscribe("maylanh/auto_status");
-        clientLocal.subscribe("maylanh/ir_send_status");
+        clientLocal.subscribe("maylanh/ir_send_status"); // Subscribe vào topic trạng thái IR
         localConnectionDisplay.textContent = "Local MQTT: Đã kết nối";
         localConnectionDisplay.className = "connected";
         isLocalConnected = true;
@@ -577,7 +336,7 @@
         clientInternet.subscribe("maylanh/temperature");
         clientInternet.subscribe("maylanh/status");
         clientInternet.subscribe("maylanh/auto_status");
-        clientInternet.subscribe("maylanh/ir_send_status");
+        clientInternet.subscribe("maylanh/ir_send_status"); // Subscribe vào topic trạng thái IR
         internetConnectionDisplay.textContent = "Internet MQTT: Đã kết nối";
         internetConnectionDisplay.className = "connected";
         isInternetConnected = true;
@@ -636,23 +395,89 @@
         }
       }
 
+      function updateStatus(temperature, status, autoStatus) {
+        temperatureDisplay.textContent = "Nhiệt độ: " + temperature + " °C";
+        statusDisplay.textContent = "Trạng thái: " + status;
+        autoStatusDisplay.textContent = "Tự động: " + autoStatus;
+      }
+
+      function onMessageArrivedLocal(message) {
+        console.log(
+          "Message arrived from local broker: " +
+            message.destinationName +
+            " - " +
+            message.payloadString
+        );
+        handleIncomingMessage(message);
+      }
+
+      function onMessageArrivedInternet(message) {
+        console.log(
+          "Message arrived from internet broker: " +
+            message.destinationName +
+            " - " +
+            message.payloadString
+        );
+        handleIncomingMessage(message);
+      }
+
+      function handleIncomingMessage(message) {
+        switch (message.destinationName) {
+          case "maylanh/temperature":
+            updateStatus(
+              message.payloadString,
+              statusDisplay.textContent.split(": ")[1],
+              autoStatusDisplay.textContent.split(": ")[1]
+            );
+            break;
+          case "maylanh/status":
+            updateStatus(
+              temperatureDisplay.textContent.split(": ")[1].split(" ")[0],
+              message.payloadString,
+              autoStatusDisplay.textContent.split(": ")[1]
+            );
+            break;
+          case "maylanh/auto_status":
+            updateStatus(
+              temperatureDisplay.textContent.split(": ")[1].split(" ")[0],
+              statusDisplay.textContent.split(": ")[1],
+              message.payloadString
+            );
+            break;
+          case "maylanh/ir_send_status": // Xử lý topic trạng thái IR
+            irStatusMessageDisplay.textContent =
+              "Trạng thái IR: " + message.payloadString.replace(/_/g, " ");
+            if (message.payloadString.endsWith("_OK")) {
+              irStatusMessageDisplay.className = "ir-ok card"; // Thêm class 'card' để có cùng style
+            } else if (message.payloadString.endsWith("_FAILED")) {
+              irStatusMessageDisplay.className = "ir-failed card"; // Thêm class 'card' để có cùng style
+            } else {
+              irStatusMessageDisplay.className = "card"; // Đảm bảo vẫn có style card
+            }
+            break;
+        }
+      }
+
       function sendMessage(topic, command) {
         const commandId = generateUUID();
         const source = "web";
         const message = `${command}:${commandId}:${source}`;
 
+        // Ưu tiên gửi đến broker local nếu đang kết nối
         if (isLocalConnected && clientLocal.isConnected()) {
           clientLocal.send(topic, message);
           console.log("Đã gửi lệnh đến broker local: " + message);
-          return;
+          return; // Dừng lại sau khi gửi thành công đến local
         }
 
+        // Nếu không kết nối được local, thử gửi đến broker internet
         if (isInternetConnected && clientInternet.isConnected()) {
           clientInternet.send(topic, message);
           console.log("Đã gửi lệnh đến broker internet: " + message);
-          return;
+          return; // Dừng lại sau khi gửi thành công đến internet
         }
 
+        // Nếu không kết nối được với cả hai broker
         alert("Không có broker nào kết nối. Vui lòng kiểm tra lại kết nối.");
       }
 
@@ -667,8 +492,28 @@
         );
       }
 
-      updatePowerButtonUI();
-      updateAutoButtonUI();
+      powerOnButton.addEventListener("click", () =>
+        sendMessage("maylanh/control", "ON")
+      );
+      powerOffButton.addEventListener("click", () =>
+        sendMessage("maylanh/control", "OFF")
+      );
+      autoOnButton.addEventListener("click", () =>
+        sendMessage("maylanh/control", "AUTO_ON")
+      );
+      autoOffButton.addEventListener("click", () =>
+        sendMessage("maylanh/control", "AUTO_OFF")
+      );
+      tempUpButton.addEventListener("click", () =>
+        sendMessage("maylanh/control", "TEMP_UP")
+      );
+      tempDownButton.addEventListener("click", () =>
+        sendMessage("maylanh/control", "TEMP_DOWN")
+      );
+      setTempsButton.addEventListener("click", () => {
+        sendMessage("maylanh/control", "HIGH_TEMP:" + highTempInput.value);
+        sendMessage("maylanh/control", "LOW_TEMP:" + lowTempInput.value);
+      });
 
       function checkConnectionStatus() {
         if (clientLocal && !clientLocal.isConnected() && isLocalConnected) {
@@ -693,7 +538,7 @@
             "isLocalConnected:",
             isLocalConnected
           );
-          onConnectLocal();
+          onConnectLocal(); // Gọi onConnect để cập nhật trạng thái
         }
         if (
           clientInternet &&
@@ -721,11 +566,11 @@
             "isInternetConnected:",
             isInternetConnected
           );
-          onConnectInternet();
+          onConnectInternet(); // Gọi onConnect để cập nhật trạng thái
         }
       }
 
-      setInterval(checkConnectionStatus, 3000);
+      setInterval(checkConnectionStatus, 3000); // Kiểm tra mỗi 3 giây
     </script>
   </body>
 </html>
