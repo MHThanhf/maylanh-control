@@ -6,9 +6,9 @@ Dự án này cung cấp giao diện web đơn giản để điều khiển máy
 
 * **Trạng thái kết nối:** Hiển thị trạng thái kết nối với broker MQTT cục bộ và internet.
 * **Trạng thái máy lạnh:** Hiển thị nhiệt độ hiện tại, trạng thái bật/tắt và trạng thái chế độ tự động của máy lạnh.
+* **Trạng thái gửi lệnh IR:** Hiển thị trạng thái thành công hay thất bại khi gửi lệnh hồng ngoại (IR) đến máy lạnh.
 * **Điều khiển:** Các nút để bật/tắt máy lạnh, bật/tắt chế độ tự động, tăng/giảm nhiệt độ.
 * **Cài đặt ngưỡng tự động:** Cho phép người dùng đặt ngưỡng nhiệt độ cao và thấp để tự động bật/tắt máy lạnh.
-* **Trạng thái gửi lệnh IR:** Hiển thị trạng thái thành công hay thất bại khi gửi lệnh hồng ngoại (IR) đến máy lạnh.
 
 ## Yêu cầu
 
