@@ -332,7 +332,6 @@
         .controls-single {
           flex-direction: row;
           justify-content: space-between;
-          /* align-items: stretch; */ /* Loại bỏ stretch trên tablet để nút có chiều cao tự nhiên */
           margin-bottom: 18px;
           gap: 10px;
         }
@@ -393,11 +392,11 @@
         <div class="temp-inputs">
           <div class="temp-input">
             <label for="highTemp">Ngưỡng Cao (°C):</label>
-            <input type="number" id="highTemp" value="28" />
+            <input type="number" id="highTemp" value="30" />
           </div>
           <div class="temp-input">
             <label for="lowTemp">Ngưỡng Thấp (°C):</label>
-            <input type="number" id="lowTemp" value="26" />
+            <input type="number" id="lowTemp" value="20" />
           </div>
         </div>
         <button id="setTemps" class="btn btn-info">Áp Dụng Ngưỡng</button>
@@ -442,24 +441,30 @@
       powerToggleButton.addEventListener("click", () => {
         isPowerOn = !isPowerOn;
         updatePowerButtonUI();
-        sendMessage("maylanh/control", isPowerOn ? "ON" : "OFF");
+        sendMessage("thanhf/maylanh/control", isPowerOn ? "ON" : "OFF");
       });
 
       autoToggleButton.addEventListener("click", () => {
         isAutoOn = !isAutoOn;
         updateAutoButtonUI();
-        sendMessage("maylanh/control", isAutoOn ? "AUTO_ON" : "AUTO_OFF");
+        sendMessage(
+          "thanhf/maylanh/control",
+          isAutoOn ? "AUTO_ON" : "AUTO_OFF"
+        );
       });
 
       tempUpButton.addEventListener("click", () =>
-        sendMessage("maylanh/control", "TEMP_UP")
+        sendMessage("thanhf/maylanh/control", "TEMP_UP")
       );
       tempDownButton.addEventListener("click", () =>
-        sendMessage("maylanh/control", "TEMP_DOWN")
+        sendMessage("thanhf/maylanh/control", "TEMP_DOWN")
       );
       setTempsButton.addEventListener("click", () => {
-        sendMessage("maylanh/control", "HIGH_TEMP:" + highTempInput.value);
-        sendMessage("maylanh/control", "LOW_TEMP:" + lowTempInput.value);
+        sendMessage(
+          "thanhf/maylanh/control",
+          "HIGH_TEMP:" + highTempInput.value
+        );
+        sendMessage("thanhf/maylanh/control", "LOW_TEMP:" + lowTempInput.value);
       });
 
       function updateStatus(temperature, status, autoStatus) {
@@ -470,14 +475,14 @@
 
       function handleIncomingMessage(message) {
         switch (message.destinationName) {
-          case "maylanh/temperature":
+          case "thanhf/maylanh/temperature":
             updateStatus(
               message.payloadString,
               statusDisplay.textContent.split(": ")[1],
               autoStatusDisplay.textContent.split(": ")[1]
             );
             break;
-          case "maylanh/status":
+          case "thanhf/maylanh/status":
             const newStatus = message.payloadString;
             updateStatus(
               temperatureDisplay.textContent.split(": ")[1].split(" ")[0],
@@ -487,7 +492,7 @@
             isPowerOn = newStatus.toUpperCase() === "ON";
             updatePowerButtonUI();
             break;
-          case "maylanh/auto_status":
+          case "thanhf/maylanh/auto_status":
             const newAutoStatus = message.payloadString;
             updateStatus(
               temperatureDisplay.textContent.split(": ")[1].split(" ")[0],
@@ -497,7 +502,7 @@
             isAutoOn = newAutoStatus.toUpperCase() === "ON";
             updateAutoButtonUI();
             break;
-          case "maylanh/ir_send_status":
+          case "thanhf/maylanh/ir_send_status":
             irStatusMessageDisplay.textContent =
               "Trạng thái IR: " + message.payloadString.replace(/_/g, " ");
             irStatusMessageDisplay.className = message.payloadString.endsWith(
@@ -524,9 +529,10 @@
       // Kết nối đến broker cục bộ
       const clientLocal = new Paho.MQTT.Client(
         "192.168.0.107",
-        9001,
+        443,
         "webClientLocal-" + parseInt(Math.random() * 100, 10)
       );
+      clientLocal.useSSL = true;
       clientLocal.onConnectionLost = onConnectionLostLocal;
       clientLocal.onMessageArrived = onMessageArrivedLocal;
       reconnectLocal();
@@ -537,6 +543,7 @@
         9001,
         "webClientInternet-" + parseInt(Math.random() * 100, 10)
       );
+      clientInternet.useSSL = true;
       clientInternet.onConnectionLost = onConnectionLostInternet;
       clientInternet.onMessageArrived = onMessageArrivedInternet;
       reconnectInternet();
@@ -547,8 +554,6 @@
           onSuccess: onConnectLocal,
           onFailure: onFailureLocal,
           keepAliveInterval: 15,
-          //userName: "yourLocalUsername", // Thêm username cho local broker
-          //password: "yourLocalPassword", // Thêm password cho local broker
         });
       }
 
@@ -558,18 +563,18 @@
           onSuccess: onConnectInternet,
           onFailure: onFailureInternet,
           keepAliveInterval: 15,
-          //userName: "yourInternetUsername", // Thêm username cho internet broker
-          //password: "yourInternetPassword", // Thêm password cho internet broker
+          //userName: "root",
+          //password: "123",
         });
       }
 
       function onConnectLocal() {
         console.log("onConnectLocal được gọi!");
         console.log("Connected to local MQTT broker via WebSocket");
-        clientLocal.subscribe("maylanh/temperature");
-        clientLocal.subscribe("maylanh/status");
-        clientLocal.subscribe("maylanh/auto_status");
-        clientLocal.subscribe("maylanh/ir_send_status");
+        clientLocal.subscribe("thanhf/maylanh/temperature");
+        clientLocal.subscribe("thanhf/maylanh/status");
+        clientLocal.subscribe("thanhf/maylanh/auto_status");
+        clientLocal.subscribe("thanhf/maylanh/ir_send_status");
         localConnectionDisplay.textContent = "Local MQTT: Đã kết nối";
         localConnectionDisplay.className = "connected";
         isLocalConnected = true;
@@ -578,10 +583,10 @@
       function onConnectInternet() {
         console.log("onConnectInternet được gọi!");
         console.log("Connected to internet MQTT broker via WebSocket");
-        clientInternet.subscribe("maylanh/temperature");
-        clientInternet.subscribe("maylanh/status");
-        clientInternet.subscribe("maylanh/auto_status");
-        clientInternet.subscribe("maylanh/ir_send_status");
+        clientInternet.subscribe("thanhf/maylanh/temperature");
+        clientInternet.subscribe("thanhf/maylanh/status");
+        clientInternet.subscribe("thanhf/maylanh/auto_status");
+        clientInternet.subscribe("thanhf/maylanh/ir_send_status");
         internetConnectionDisplay.textContent = "Internet MQTT: Đã kết nối";
         internetConnectionDisplay.className = "connected";
         isInternetConnected = true;
@@ -733,4 +738,3 @@
     </script>
   </body>
 </html>
-v
