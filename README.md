@@ -46,8 +46,8 @@ Mọi đóng góp đều được hoan nghênh! Bạn có thể mở issue để
 
 ## Tác giả
 
-[Tên của bạn (nếu muốn)]
+Mai Hữu Thành, HITC, 2123220009
 
 ## Bản quyền
 
-[Thông tin bản quyền (nếu có)]
+Mai Hữu Thành
